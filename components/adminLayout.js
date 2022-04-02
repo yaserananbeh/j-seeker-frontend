@@ -9,7 +9,7 @@ export default function AdminLayout({ children }) {
       <Header />
       <h2 className={styles.title}>Admin Dashboard</h2>
       <div className={styles.container}>
-        <div className="row">
+        <div className="row m-0">
           <AdminAside />
           <div className="col-md-10">
             <main>{children}</main>

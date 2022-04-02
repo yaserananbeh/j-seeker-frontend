@@ -153,24 +153,28 @@ function Categories({ allCategoriesData }) {
                 </tr>
               </thead>
               <tbody>
-                {allCategoriesData.length
-                  ? allCategoriesData.map((data) => (
-                      <tr key={data.id}>
-                        <th scope="row">{data.id}</th>
-                        <td>{data.name}</td>
-                        <td>
-                          <button
-                            className="btn btn-danger m-0 px-2"
-                            onClick={function () {
-                              handleDeleteClick(`${data.id}`);
-                            }}
-                          >
-                            Delete
-                          </button>
-                        </td>
-                      </tr>
-                    ))
-                  : "No Categories"}
+                {allCategoriesData.length ? (
+                  allCategoriesData.map((data) => (
+                    <tr key={data.id}>
+                      <th scope="row">{data.id}</th>
+                      <td>{data.name}</td>
+                      <td>
+                        <button
+                          className="btn btn-danger m-0 px-2"
+                          onClick={function () {
+                            handleDeleteClick(`${data.id}`);
+                          }}
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={3}>No Categories</td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>

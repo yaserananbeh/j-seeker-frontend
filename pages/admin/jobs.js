@@ -195,26 +195,30 @@ function Jobs({ allJobsData, allCategoriesData }) {
                 </tr>
               </thead>
               <tbody>
-                {allJobsData.length
-                  ? allJobsData.map((data) => (
-                      <tr key={data.id}>
-                        <th scope="row">{data.id}</th>
-                        <td>{data.title}</td>
-                        <td>{data.description.slice(0, 25)}</td>
-                        <td>{data.category.name}</td>
-                        <td>
-                          <button
-                            className="btn btn-danger m-0 px-2"
-                            onClick={function () {
-                              handleDeleteClick(`${data.id}`);
-                            }}
-                          >
-                            Delete
-                          </button>
-                        </td>
-                      </tr>
-                    ))
-                  : "No Jobs"}
+                {allJobsData.length ? (
+                  allJobsData.map((data) => (
+                    <tr key={data.id}>
+                      <th scope="row">{data.id}</th>
+                      <td>{data.title}</td>
+                      <td>{data.description.slice(0, 25)}</td>
+                      <td>{data.category.name}</td>
+                      <td>
+                        <button
+                          className="btn btn-danger m-0 px-2"
+                          onClick={function () {
+                            handleDeleteClick(`${data.id}`);
+                          }}
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={5}>no jobs</td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
