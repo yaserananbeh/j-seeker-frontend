@@ -3,6 +3,7 @@ import styles from "../../styles/Home.module.css";
 import AdminLayout from "../../components/adminLayout";
 import axios from "axios";
 import { useRouter } from "next/router";
+import Swal from "sweetalert2";
 
 export async function getStaticProps() {
   //getServerSideProps(context)
@@ -20,8 +21,27 @@ function Categories({ allCategoriesData }) {
   const handleDeleteClick = (cat_id) => {
     axios
       .delete(`http://localhost:8080/categories/${cat_id}`)
-      .then((res) => router.push("/admin/categories"))
-      .catch((err) => console.log(err.message));
+      .then(
+        (res) =>
+          router.push("/admin/categories") &&
+          Swal.fire({
+            position: "top-end",
+            color: "green",
+            text: "Deleted Successfully",
+            showConfirmButton: false,
+            timer: 3000,
+          })
+      )
+      .catch(
+        (err) =>
+          Swal.fire({
+            position: "top-end",
+            color: "red",
+            text: "Can't Delete This Category",
+            showConfirmButton: false,
+            timer: 3000,
+          }) && console.log(err.message)
+      );
   };
   const handleAddNewCategory = (e) => {
     e.preventDefault();
@@ -35,10 +55,40 @@ function Categories({ allCategoriesData }) {
       })
       .then((res) => {
         res.status === 201
-          ? router.push("/admin/categories")
-          : console.log("problem happened");
+          ? router.push("/admin/categories") &&
+            Swal.fire({
+              position: "top-end",
+              color: "green",
+              text: "Added Successfully",
+              showConfirmButton: false,
+              timer: 3000,
+            }) &&
+            e.target.reset()
+          : Swal.fire({
+              position: "top-end",
+              color: "red",
+              text: "problem happened",
+              showConfirmButton: false,
+              timer: 3000,
+            });
       })
-      .catch((e) => console.log(e.message));
+      .catch((e) =>
+        e.message === "Request failed with status code 422"
+          ? Swal.fire({
+              position: "top-end",
+              color: "red",
+              text: "category exist before",
+              showConfirmButton: false,
+              timer: 3000,
+            })
+          : Swal.fire({
+              position: "top-end",
+              color: "red",
+              text: "error occurred",
+              showConfirmButton: false,
+              timer: 3000,
+            })
+      );
   };
   return (
     <AdminLayout>
@@ -73,13 +123,17 @@ function Categories({ allCategoriesData }) {
                 }}
               >
                 <div className="mb-3">
-                  <label htmlFor="categoryNameInput" className="form-label">
+                  <label
+                    htmlFor="categoryNameInput"
+                    className="form-label is-required"
+                  >
                     Category Name
                   </label>
                   <input
                     type="text"
                     className="form-control"
                     id="categoryNameInput"
+                    required
                   />
                 </div>
 

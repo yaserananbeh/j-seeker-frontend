@@ -13,7 +13,6 @@ export async function getStaticProps() {
   const applicationsCount = await axios
     .head(`http://localhost:8080/applications`)
     .then((res) => res.headers["x-pagination-total-count"]);
-  console.log(categoriesCount);
   return {
     props: {
       categoriesCount,

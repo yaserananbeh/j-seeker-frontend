@@ -3,6 +3,7 @@ import styles from "../../styles/Home.module.css";
 import AdminLayout from "../../components/adminLayout";
 import { useRouter } from "next/router";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 export async function getStaticProps() {
   //getServerSideProps(context)
@@ -22,8 +23,27 @@ function Jobs({ allJobsData, allCategoriesData }) {
   const handleDeleteClick = (job_id) => {
     axios
       .delete(`http://localhost:8080/jobs/${job_id}`)
-      .then((res) => router.push("/admin/jobs"))
-      .catch((err) => console.log(err.message));
+      .then(
+        (res) =>
+          router.push("/admin/jobs") &&
+          Swal.fire({
+            position: "top-end",
+            color: "green",
+            text: "Deleted Successfully",
+            showConfirmButton: false,
+            timer: 3000,
+          })
+      )
+      .catch(
+        (err) =>
+          Swal.fire({
+            position: "top-end",
+            color: "red",
+            text: "Can't Delete This Job",
+            showConfirmButton: false,
+            timer: 3000,
+          }) && console.log(err.message)
+      );
   };
   const handleAddNewJob = (e) => {
     e.preventDefault();
@@ -40,10 +60,33 @@ function Jobs({ allJobsData, allCategoriesData }) {
       })
       .then((res) => {
         res.status === 201
-          ? router.push("/admin/jobs")
-          : console.log("problem happened");
+          ? router.push("/admin/jobs") &&
+            Swal.fire({
+              position: "top-end",
+              color: "green",
+              text: "Added Successfully",
+              showConfirmButton: false,
+              timer: 3000,
+            }) &&
+            e.target.reset()
+          : Swal.fire({
+              position: "top-end",
+              color: "red",
+              text: "Can't Add This Job",
+              showConfirmButton: false,
+              timer: 3000,
+            });
       })
-      .catch((e) => console.log(e.message));
+      .catch(
+        (e) =>
+          Swal.fire({
+            position: "top-end",
+            color: "red",
+            text: "Can't Add This Job",
+            showConfirmButton: false,
+            timer: 3000,
+          }) && console.log(e.message)
+      );
   };
   return (
     <AdminLayout>
@@ -78,23 +121,31 @@ function Jobs({ allJobsData, allCategoriesData }) {
                 }}
               >
                 <div className="mb-3">
-                  <label htmlFor="jobTitleInput" className="form-label">
+                  <label
+                    htmlFor="jobTitleInput"
+                    className="form-label is-required"
+                  >
                     Job Title
                   </label>
                   <input
                     type="text"
                     className="form-control"
                     id="jobTitleInput"
+                    required
                   />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="jobDescriptionInput" className="form-label">
+                  <label
+                    htmlFor="jobDescriptionInput"
+                    className="form-label is-required"
+                  >
                     Job Description
                   </label>
                   <input
                     type="text"
                     className="form-control"
                     id="jobDescriptionInput"
+                    required
                   />
                 </div>
                 <div className="mb-3 text-start">
