@@ -28,18 +28,16 @@ function index({ allJobsData }) {
           <p className={styles.description}>browse our huge list of jobs</p>
 
           <div className={styles.grid}>
-            {allJobsData.map((category) => (
-              // <Link key={category.id} href={`/jobs/${category.id}`}>
-              <a className={styles.card}>
-                <h2>{category.title.toUpperCase()}</h2>
+            {allJobsData.map((job) => (
+              <a className={styles.card} key={job.id}>
+                <h2>{job.title.toUpperCase()}</h2>
                 <p>
-                  {category.description.length > 50
-                    ? category.description.slice(0, 50) + " ..."
-                    : category.description}
+                  {job.description.length > 50
+                    ? job.description.slice(0, 50) + " ..."
+                    : job.description}
                 </p>
-                <label className="text-muted">{category.category.name}</label>
+                <label className="text-muted">{job.category.name}</label>
               </a>
-              // </Link>
             ))}
           </div>
         </main>

@@ -65,6 +65,9 @@ function Header() {
                 Search
               </button>
             </form>
+            <Link href="/admin">
+              <a className="ms-3 btn btn-dark">Admin?</a>
+            </Link>
           </div>
         </div>
       </nav>
