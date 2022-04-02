@@ -3,7 +3,7 @@
 }
 
 .main {
-  min-height: 100vh;
+  min-height: 90vh;
   padding: 4rem 0;
   flex: 1;
   display: flex;
@@ -70,7 +70,7 @@
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  max-width: 800px;
+  max-width: 1000px;
 }
 
 .card {
